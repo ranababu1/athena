@@ -84,12 +84,12 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Blog Post Generator</title>
+        <title>Athena - Blog Post Builder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Blog Post Generator</h1>
+        <h1 className={styles.title}>Athena - Blog Post Builder</h1>
 
         <form onSubmit={onSubmit}>
           <input
