@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "./index.module.css";
 import jsPDF from "jspdf";
 
@@ -10,11 +10,16 @@ export default function Home() {
   const [targetAudienceInput, setTargetAudienceInput] = useState("");
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
+
+  const contentRef = useRef();
+  const metaDescriptionRef = useRef();
 
   async function onSubmit(event) {
     event.preventDefault();
+    setLoading(true);
     try {
-      const response = await fetch("api/apiCall", {
+      const response = await fetch("/api/apiCall", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,6 +38,7 @@ export default function Home() {
       }
 
       setResult(data.result);
+      setTitle(topicInput);
       setTopicInput("");
       setFocusKeywordInput("");
       setLengthInput("");
@@ -40,24 +46,51 @@ export default function Home() {
     } catch (error) {
       console.error(error);
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
+  }
+
+  async function handleCopy(ref) {
+    const text = ref.current.innerText;
+    await navigator.clipboard.writeText(text);
+    alert("Content copied");
   }
 
   function downloadPDF() {
     const doc = new jsPDF();
-    doc.text(result, 10, 10);
+    const textWidth = doc.internal.pageSize.getWidth() - 20;
+    const formattedText = doc.splitTextToSize(result, textWidth);
+
+    doc.text(formattedText, 10, 10);
     doc.save("GeneratedBlogPost.pdf");
   }
+
+  function parseGeneratedText(text) {
+    const titleRegex = /^(.*?)\n/;
+    const metaDescriptionRegex = /\nMeta Description:(.*)$/;
+
+    const titleMatch = text.match(titleRegex);
+    const metaDescriptionMatch = text.match(metaDescriptionRegex);
+    const title = titleMatch ? titleMatch[1] : "";
+    const metaDescription = metaDescriptionMatch ? metaDescriptionMatch[1] : "";
+    const content = text.replace(titleRegex, "").replace(metaDescriptionRegex, "");
+
+    return { title, content, metaDescription };
+  }
+
+  const parsedResult = result ? parseGeneratedText(result) : null;
 
   return (
     <div>
       <Head>
-        <title>OpenAI Blog Post Generator</title>
+        <title>Blog Post Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h3>Generate a Blog Post</h3>
+        <h1 className={styles.title}>Blog Post Generator</h1>
+
         <form onSubmit={onSubmit}>
           <input
             type="text"
@@ -73,26 +106,38 @@ export default function Home() {
             value={focusKeywordInput}
             onChange={(e) => setFocusKeywordInput(e.target.value)}
           />
-          <input
+                    <input
             type="number"
             name="length"
-            placeholder="Enter the blog length (words)"
+            placeholder="Enter blog post length"
             value={lengthInput}
             onChange={(e) => setLengthInput(e.target.value)}
           />
           <input
             type="text"
             name="targetAudience"
-            placeholder="Enter the target audience"
+            placeholder="Enter target audience"
             value={targetAudienceInput}
             onChange={(e) => setTargetAudienceInput(e.target.value)}
           />
-          <input type="submit" value="Generate blog post" />
+          <input type="submit" value="Generate Blog Post" />
         </form>
-        <div className={styles.result}>{result}</div>
+        {loading ? (
+          <div className={styles.loader}>Loading...</div>
+        ) : (
+          <>
+            {parsedResult && (
+              <div>
+                <h1 className={styles.resultTitle}>{title}</h1>
+                <div className={styles.resultContent} ref={contentRef} onClick={() => handleCopy(contentRef)}>{parsedResult.content}</div>
+                <div className={styles.resultMetaDescription} ref={metaDescriptionRef} onClick={() => handleCopy(metaDescriptionRef)}><b>Meta Description:</b> {parsedResult.metaDescription}</div>
+              </div>
+            )}
+          </>
+        )}
         {result && (
           <button onClick={downloadPDF} className={styles.downloadButton}>
-            Download as PDF
+            Download PDF
           </button>
         )}
       </main>
