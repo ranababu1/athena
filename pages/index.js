@@ -4,6 +4,7 @@ import jsPDF from "jspdf";
 import "bootstrap/dist/css/bootstrap.min.css";
 import HeroSection from "../components/HeroSection";
 import ContentForm from "../components/ContentForm";
+import Hero2 from "../components/Hero2";
 
 export default function Home() {
   const [result, setResult] = useState();
@@ -51,11 +52,29 @@ export default function Home() {
   function downloadPDF() {
     const doc = new jsPDF();
     const textWidth = doc.internal.pageSize.getWidth() - 20;
-    const formattedText = doc.splitTextToSize(result, textWidth);
-
-    doc.text(formattedText, 10, 10);
+  
+    doc.setFontSize(22);
+    doc.text(title, 10, 30);
+    doc.setFontSize(16);
+  
+    doc.setLineWidth(1);
+    doc.line(10, 35, doc.internal.pageSize.getWidth() - 10, 35);
+  
+    const contentText = parsedResult.content;
+    const formattedContentText = doc.splitTextToSize(contentText, textWidth);
+    doc.text(formattedContentText, 10, 50);
+  
+    const lastLineY = doc.autoTable.previous.finalY || 0;
+    doc.setLineWidth(1);
+    doc.line(10, lastLineY + 20, doc.internal.pageSize.getWidth() - 10, lastLineY + 20);
+  
+    const metaDescriptionText = "Meta Description: " + parsedResult.metaDescription;
+    doc.setFont("helvetica", "bold");
+    doc.text(metaDescriptionText, 10, lastLineY + 35);
+  
     doc.save("GeneratedBlogPost.pdf");
   }
+  
 
   function parseGeneratedText(text) {
     const titleRegex = /^(.*?)\n/;
@@ -75,11 +94,12 @@ export default function Home() {
   const parsedResult = result ? parseGeneratedText(result) : null;
 
   return (
-    <div className="container-fluid p-5 text-center">
+    <div className="container p-5 text-center">
       <Head>
         <title>OpenAI Quickstart</title>
       </Head>
-      <HeroSection />
+      <Hero2 />
+      {/* <HeroSection /> */}
       <main className="text-center py-5">
         <h3 className="mb-4">Generate a Blog Post</h3>
         <ContentForm onSubmit={onSubmit} />
