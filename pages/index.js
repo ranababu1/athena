@@ -1,13 +1,11 @@
 import Head from "next/head";
 import { useState, useRef } from "react";
-import styles from "./index.module.css";
 import jsPDF from "jspdf";
+import "bootstrap/dist/css/bootstrap.min.css";
+import HeroSection from "../components/HeroSection";
+import ContentForm from "../components/ContentForm";
 
 export default function Home() {
-  const [topicInput, setTopicInput] = useState("");
-  const [focusKeywordInput, setFocusKeywordInput] = useState("");
-  const [lengthInput, setLengthInput] = useState("");
-  const [targetAudienceInput, setTargetAudienceInput] = useState("");
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -15,8 +13,7 @@ export default function Home() {
   const contentRef = useRef();
   const metaDescriptionRef = useRef();
 
-  async function onSubmit(event) {
-    event.preventDefault();
+  async function onSubmit(formData) {
     setLoading(true);
     try {
       const response = await fetch("/api/apiCall", {
@@ -24,25 +21,19 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          topic: topicInput,
-          focusKeyword: focusKeywordInput,
-          length: lengthInput,
-          targetAudience: targetAudienceInput,
-        }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
       if (response.status !== 200) {
-        throw data.error || new Error(`Request failed with status ${response.status}`);
+        throw (
+          data.error ||
+          new Error(`Request failed with status ${response.status}`)
+        );
       }
 
       setResult(data.result);
-      setTitle(topicInput);
-      setTopicInput("");
-      setFocusKeywordInput("");
-      setLengthInput("");
-      setTargetAudienceInput("");
+      setTitle(formData.topic);
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -74,7 +65,9 @@ export default function Home() {
     const metaDescriptionMatch = text.match(metaDescriptionRegex);
     const title = titleMatch ? titleMatch[1] : "";
     const metaDescription = metaDescriptionMatch ? metaDescriptionMatch[1] : "";
-    const content = text.replace(titleRegex, "").replace(metaDescriptionRegex, "");
+    const content = text
+      .replace(titleRegex, "")
+      .replace(metaDescriptionRegex, "");
 
     return { title, content, metaDescription };
   }
@@ -82,61 +75,38 @@ export default function Home() {
   const parsedResult = result ? parseGeneratedText(result) : null;
 
   return (
-    <div>
+    <div className="container-fluid p-5 text-center">
       <Head>
-        <title>Athena - Blog Post Builder</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>OpenAI Quickstart</title>
       </Head>
+      <HeroSection />
+      <main className="text-center py-5">
+        <h3 className="mb-4">Generate a Blog Post</h3>
+        <ContentForm onSubmit={onSubmit} />
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Athena - Blog Post Builder</h1>
-
-        <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            name="topic"
-            placeholder="Enter a topic"
-            value={topicInput}
-            onChange={(e) => setTopicInput(e.target.value)}
-          />
-          <input
-            type="text"
-            name="focusKeyword"
-            placeholder="Enter a focus keyword"
-            value={focusKeywordInput}
-            onChange={(e) => setFocusKeywordInput(e.target.value)}
-          />
-                    <input
-            type="number"
-            name="length"
-            placeholder="Enter blog post length"
-            value={lengthInput}
-            onChange={(e) => setLengthInput(e.target.value)}
-          />
-          <input
-            type="text"
-            name="targetAudience"
-            placeholder="Enter target audience"
-            value={targetAudienceInput}
-            onChange={(e) => setTargetAudienceInput(e.target.value)}
-          />
-          <input type="submit" value="Generate Blog Post" />
-        </form>
         {loading ? (
-          <div className={styles.loader}>Loading...</div>
+          <div>Loading...</div>
         ) : (
           <>
             {parsedResult && (
               <div>
-                <h1 className={styles.resultTitle}>{title}</h1>
-                <div className={styles.resultContent} ref={contentRef} onClick={() => handleCopy(contentRef)}>{parsedResult.content}</div>
-                <div className={styles.resultMetaDescription} ref={metaDescriptionRef} onClick={() => handleCopy(metaDescriptionRef)}><b>Meta Description:</b> {parsedResult.metaDescription}</div>
+                <h1 className="text-capitalize mb-3">{title}</h1>
+                <div ref={contentRef} onClick={() => handleCopy(contentRef)}>
+                  {parsedResult.content}
+                </div>
+                <div
+                  ref={metaDescriptionRef}
+                  onClick={() => handleCopy(metaDescriptionRef)}
+                  className="mt-3"
+                >
+                  <b>Meta Description:</b> {parsedResult.metaDescription}
+                </div>
               </div>
             )}
           </>
         )}
         {result && (
-          <button onClick={downloadPDF} className={styles.downloadButton}>
+          <button onClick={downloadPDF} className="btn btn-primary">
             Download PDF
           </button>
         )}
