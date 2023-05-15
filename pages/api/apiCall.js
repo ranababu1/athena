@@ -49,5 +49,5 @@ export default async function (req, res) {
 }
 
 function generatePrompt(topic, focusKeyword, length, targetAudience) {
-  return `Write a blog post about the topic "${topic}" using the focus keyword "${focusKeyword}" for a ${targetAudience} audience. The blog post should be approximately ${length} words long. Also add a meta description for the blog post:`;
+  return `Write a blog post about the topic "${topic}" using the focus keyword "${focusKeyword}" for a ${targetAudience} audience. The blog post should be approximately ${length} words long and repeat the focus keyword multiple times inside the content. Also add a meta description for the blog post:`;
 }

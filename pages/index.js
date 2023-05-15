@@ -51,29 +51,35 @@ export default function Home() {
 
   function downloadPDF() {
     const doc = new jsPDF();
+  
+    const titleFontSize = 22;
+    const contentFontSize = 12;
+    const metaDescriptionFontSize = 12;
+  
     const textWidth = doc.internal.pageSize.getWidth() - 20;
+    const formattedContentText = doc.splitTextToSize(parsedResult.content, textWidth);
   
-    doc.setFontSize(22);
-    doc.text(title, 10, 30);
-    doc.setFontSize(16);
+    doc.setFontSize(titleFontSize);
+    doc.text(parsedResult.title, 10, 10);
   
-    doc.setLineWidth(1);
-    doc.line(10, 35, doc.internal.pageSize.getWidth() - 10, 35);
+    doc.setFontSize(contentFontSize);
+    doc.text(formattedContentText, 10, 20);
   
-    const contentText = parsedResult.content;
-    const formattedContentText = doc.splitTextToSize(contentText, textWidth);
-    doc.text(formattedContentText, 10, 50);
+    const lineWidth = doc.internal.pageSize.getWidth() - 20;
+    const lineY = 20 + (formattedContentText.length * contentFontSize) / 2.5;
+    doc.setLineWidth(0.5);
+    doc.line(10, lineY, lineWidth, lineY);
   
-    const lastLineY = doc.autoTable.previous.finalY || 0;
-    doc.setLineWidth(1);
-    doc.line(10, lastLineY + 20, doc.internal.pageSize.getWidth() - 10, lastLineY + 20);
-  
-    const metaDescriptionText = "Meta Description: " + parsedResult.metaDescription;
+    doc.setFontSize(metaDescriptionFontSize);
     doc.setFont("helvetica", "bold");
-    doc.text(metaDescriptionText, 10, lastLineY + 35);
+    doc.text("Meta Description: ", 10, lineY + 10);
+    doc.setFont("helvetica", "normal");
+    const formattedMetaDescriptionText = doc.splitTextToSize(parsedResult.metaDescription, textWidth - 30);
+    doc.text(formattedMetaDescriptionText, 10 + 30, lineY + 10);
   
     doc.save("GeneratedBlogPost.pdf");
   }
+  
   
 
   function parseGeneratedText(text) {
