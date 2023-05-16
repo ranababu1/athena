@@ -5,20 +5,31 @@ const ContentForm = ({ onSubmit }) => {
   const [keywordInput, setKeywordInput] = useState("");
   const [lengthInput, setLengthInput] = useState("");
   const [audienceInput, setAudienceInput] = useState("");
+  const [writersPersonaInput, setWritersPersonaInput] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
     onSubmit({
       topic: topicInput,
-      focusKeyword: keywordInput, 
+      focusKeyword: keywordInput,
       length: lengthInput,
-      targetAudience: audienceInput, 
+      targetAudience: audienceInput,
+      writersPersona: writersPersonaInput,
     });
   }
-  
 
   return (
     <form onSubmit={handleSubmit}>
+      <div className="form-group">
+      <input
+        type="text"
+        name="writersPersona"
+        placeholder="Enter Writer's Persona"
+        value={writersPersonaInput}
+        onChange={(e) => setWritersPersonaInput(e.target.value)}
+        className="form-control mb-2"
+      />
+      </div>
       <div className="form-group">
         <input
           type="text"

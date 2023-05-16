@@ -7,7 +7,7 @@ const Hero2 = () => {
       <div className="container">
         <div className="row align-items-center no-gutters">
           <div className="col-xl-5 col-lg-6 col-md-12">
-            <div className="py-5 py-lg-0">
+            <div className="py-5">
               <h1 className="text-white display-4 fw-bold">Presenting Athena...</h1>
               <p className="text-white-50 mb-4 lead">
               Writer's block is a thing of the past. Now building blog articles should not be a hassle. Athena is here to help you build your blog articles in a matter of seconds.

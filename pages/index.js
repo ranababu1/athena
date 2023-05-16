@@ -100,13 +100,13 @@ export default function Home() {
   const parsedResult = result ? parseGeneratedText(result) : null;
 
   return (
-    <div className="container p-5 text-center">
+    <div className="container-fluid p-0">
       <Head>
-        <title>OpenAI Quickstart</title>
+        <title>Athena</title>
       </Head>
       <Hero2 />
-      {/* <HeroSection /> */}
-      <main className="text-center py-5">
+      <div className="container">
+      <div className="pd510">
         <h3 className="mb-4">Generate a Blog Post</h3>
         <ContentForm onSubmit={onSubmit} />
 
@@ -117,7 +117,7 @@ export default function Home() {
             {parsedResult && (
               <div>
                 <h1 className="text-capitalize mb-3">{title}</h1>
-                <div ref={contentRef} onClick={() => handleCopy(contentRef)}>
+                <div className="container" ref={contentRef} onClick={() => handleCopy(contentRef)} style={{ whiteSpace: "pre-line" }}>
                   {parsedResult.content}
                 </div>
                 <div
@@ -125,7 +125,7 @@ export default function Home() {
                   onClick={() => handleCopy(metaDescriptionRef)}
                   className="mt-3"
                 >
-                  <b>Meta Description:</b> {parsedResult.metaDescription}
+                  {parsedResult.metaDescription}
                 </div>
               </div>
             )}
@@ -136,7 +136,8 @@ export default function Home() {
             Download PDF
           </button>
         )}
-      </main>
+      </div>
+      </div>
     </div>
   );
 }

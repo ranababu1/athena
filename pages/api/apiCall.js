@@ -15,8 +15,8 @@ export default async function (req, res) {
     return;
   }
 
-  const { topic, focusKeyword, length, targetAudience } = req.body;
-  if (!topic || !focusKeyword || !length || !targetAudience) {
+  const { topic, focusKeyword, length, targetAudience, writersPersona } = req.body;
+  if (!topic || !focusKeyword || !length || !targetAudience || !writersPersona) {
     res.status(400).json({
       error: {
         message: "Please provide all required fields",
@@ -28,26 +28,16 @@ export default async function (req, res) {
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePrompt(topic, focusKeyword, length, targetAudience),
+      prompt: generatePrompt(topic, focusKeyword, length, targetAudience, writersPersona),
       temperature: 0.6,
       max_tokens: 2048,
     });
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch (error) {
-    if (error.response) {
-      console.error(error.response.status, error.response.data);
-      res.status(error.response.status).json(error.response.data);
-    } else {
-      console.error(`Error with OpenAI API request: ${error.message}`);
-      res.status(500).json({
-        error: {
-          message: 'An error occurred during your request.',
-        }
-      });
-    }
+    // ...
   }
 }
 
-function generatePrompt(topic, focusKeyword, length, targetAudience) {
-  return `Write a blog post about the topic "${topic}" using the focus keyword "${focusKeyword}" for a ${targetAudience} audience. The blog post should be approximately ${length} words long and repeat the focus keyword multiple times inside the content. Also add a meta description for the blog post:`;
+function generatePrompt(topic, focusKeyword, length, targetAudience, writersPersona) {
+  return `Consider yourself as ${writersPersona} and write a SEO optimized blog post for better search engine rankings about the ${topic} using the focus keyword ${focusKeyword} targeted at audience from ${targetAudience} region. The blog post should be approximately ${length} words long. Repeat the focus keyword few times in headings as well as in paragraph naturally. Use transition words. Use related keywords as well as synonyms of the focus keyword throughout the content. Create a meta description within 150-160 characters containing the focus keyword and add it to the end of the blog post as a separate paragraph. Create a good slug containing the focus keyword for this post in a new line in last paragraph.`;
 }
