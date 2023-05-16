@@ -5,16 +5,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HeroSection from "../components/HeroSection";
 import ContentForm from "../components/ContentForm";
 import Hero2 from "../components/Hero2";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
+  const [showForm, setShowForm] = useState(true);
+
 
   const contentRef = useRef();
   const metaDescriptionRef = useRef();
+  const slugRef = useRef();
+
 
   async function onSubmit(formData) {
+    setShowForm(false);
     setLoading(true);
     try {
       const response = await fetch("/api/apiCall", {
@@ -41,6 +47,11 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleGenerateAgain() {
+    setShowForm(true);
+    setResult(null);
   }
 
   async function handleCopy(ref) {
@@ -83,19 +94,24 @@ export default function Home() {
   
 
   function parseGeneratedText(text) {
-    const titleRegex = /^(.*?)\n/;
+    const titleRegex = /^Title:(.*?)\n/;
+    const slugRegex = /\nSlug:(.*?)\n/;
     const metaDescriptionRegex = /\nMeta Description:(.*)$/;
-
+  
     const titleMatch = text.match(titleRegex);
+    const slugMatch = text.match(slugRegex);
     const metaDescriptionMatch = text.match(metaDescriptionRegex);
-    const title = titleMatch ? titleMatch[1] : "";
-    const metaDescription = metaDescriptionMatch ? metaDescriptionMatch[1] : "";
+    const title = titleMatch ? titleMatch[1].trim() : "";
+    const slug = slugMatch ? slugMatch[1].trim() : "";
+    const metaDescription = metaDescriptionMatch ? metaDescriptionMatch[1].trim() : "";
     const content = text
       .replace(titleRegex, "")
+      .replace(slugRegex, "")
       .replace(metaDescriptionRegex, "");
-
-    return { title, content, metaDescription };
+  
+    return { title, content, slug, metaDescription };
   }
+  
 
   const parsedResult = result ? parseGeneratedText(result) : null;
 
@@ -105,16 +121,16 @@ export default function Home() {
         <title>Athena</title>
       </Head>
       <Hero2 />
-      <div className="container">
-      <div className="pd510">
-        <h3 className="mb-4">Generate a Blog Post</h3>
-        <ContentForm onSubmit={onSubmit} />
-
+      <div>
+      <div className="container pt-4 mnh500">
+        {showForm ? (
+          <ContentForm onSubmit={onSubmit} />
+        ) : null}
         {loading ? (
-          <div>Loading...</div>
+          <span className="loader"></span>
         ) : (
           <>
-            {parsedResult && (
+            {result && (
               <div>
                 <h1 className="text-capitalize mb-3">{title}</h1>
                 <div className="container" ref={contentRef} onClick={() => handleCopy(contentRef)} style={{ whiteSpace: "pre-line" }}>
@@ -125,19 +141,27 @@ export default function Home() {
                   onClick={() => handleCopy(metaDescriptionRef)}
                   className="mt-3"
                 >
-                  {parsedResult.metaDescription}
+                  <b></b> {parsedResult.metaDescription}
                 </div>
+                <div
+                  ref={slugRef}
+                  onClick={() => handleCopy(slugRef)}
+                  className="mt-3"
+                >
+                  <b></b> {parsedResult.slug}
+                </div>
+                <button onClick={downloadPDF} className="btn btn-primary mr-2">
+                  Download PDF
+                </button>
+                <button onClick={handleGenerateAgain} className="btn btn-secondary">
+                  Generate Again
+                </button>
               </div>
             )}
           </>
         )}
-        {result && (
-          <button onClick={downloadPDF} className="btn btn-primary">
-            Download PDF
-          </button>
-        )}
       </div>
       </div>
-    </div>
-  );
+      <Footer />
+    </div>);
 }
