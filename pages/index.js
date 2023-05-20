@@ -2,10 +2,10 @@ import Head from "next/head";
 import { useState, useRef } from "react";
 import jsPDF from "jspdf";
 import "bootstrap/dist/css/bootstrap.min.css";
-import HeroSection from "../components/HeroSection";
 import ContentForm from "../components/ContentForm";
-import Hero2 from "../components/Hero2";
+import Herosection from "../components/Herosection";
 import Footer from "../components/Footer";
+import Navigation from "../components/Navigation";
 
 export default function Home() {
   const [result, setResult] = useState();
@@ -13,11 +13,9 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [showForm, setShowForm] = useState(true);
 
-
   const contentRef = useRef();
   const metaDescriptionRef = useRef();
   const slugRef = useRef();
-
 
   async function onSubmit(formData) {
     setShowForm(false);
@@ -62,56 +60,61 @@ export default function Home() {
 
   function downloadPDF() {
     const doc = new jsPDF();
-  
+
     const titleFontSize = 22;
     const contentFontSize = 12;
     const metaDescriptionFontSize = 12;
-  
+
     const textWidth = doc.internal.pageSize.getWidth() - 20;
-    const formattedContentText = doc.splitTextToSize(parsedResult.content, textWidth);
-  
+    const formattedContentText = doc.splitTextToSize(
+      parsedResult.content,
+      textWidth
+    );
+
     doc.setFontSize(titleFontSize);
     doc.text(parsedResult.title, 10, 10);
-  
+
     doc.setFontSize(contentFontSize);
     doc.text(formattedContentText, 10, 20);
-  
+
     const lineWidth = doc.internal.pageSize.getWidth() - 20;
     const lineY = 20 + (formattedContentText.length * contentFontSize) / 2.5;
     doc.setLineWidth(0.5);
     doc.line(10, lineY, lineWidth, lineY);
-  
+
     doc.setFontSize(metaDescriptionFontSize);
     doc.setFont("helvetica", "bold");
     doc.text("Meta Description: ", 10, lineY + 10);
     doc.setFont("helvetica", "normal");
-    const formattedMetaDescriptionText = doc.splitTextToSize(parsedResult.metaDescription, textWidth - 30);
+    const formattedMetaDescriptionText = doc.splitTextToSize(
+      parsedResult.metaDescription,
+      textWidth - 30
+    );
     doc.text(formattedMetaDescriptionText, 10 + 30, lineY + 10);
-  
+
     doc.save("GeneratedBlogPost.pdf");
   }
-  
-  
 
   function parseGeneratedText(text) {
     const titleRegex = /^Title:(.*?)\n/;
     const slugRegex = /\nSlug:(.*?)\n/;
     const metaDescriptionRegex = /\nMeta Description:(.*)$/;
-  
+
     const titleMatch = text.match(titleRegex);
     const slugMatch = text.match(slugRegex);
     const metaDescriptionMatch = text.match(metaDescriptionRegex);
     const title = titleMatch ? titleMatch[1].trim() : "";
     const slug = slugMatch ? slugMatch[1].trim() : "";
-    const metaDescription = metaDescriptionMatch ? metaDescriptionMatch[1].trim() : "";
+    const metaDescription = metaDescriptionMatch
+      ? metaDescriptionMatch[1].trim()
+      : "";
     const content = text
       .replace(titleRegex, "")
       .replace(slugRegex, "")
       .replace(metaDescriptionRegex, "");
-  
+
     return { title, content, slug, metaDescription };
   }
-  
 
   const parsedResult = result ? parseGeneratedText(result) : null;
 
@@ -120,48 +123,59 @@ export default function Home() {
       <Head>
         <title>Athena</title>
       </Head>
-      <Hero2 />
+      <Navigation />
+      <Herosection />
       <div>
-      <div className="container pt-4 mnh500">
-        {showForm ? (
-          <ContentForm onSubmit={onSubmit} />
-        ) : null}
-        {loading ? (
-          <span className="loader"></span>
-        ) : (
-          <>
-            {result && (
-              <div>
-                <h1 className="text-capitalize mb-3">{title}</h1>
-                <div className="container" ref={contentRef} onClick={() => handleCopy(contentRef)} style={{ whiteSpace: "pre-line" }}>
-                  {parsedResult.content}
+        <div className="container pt-4 mnh500">
+          {showForm ? <ContentForm onSubmit={onSubmit} /> : null}
+          {loading ? (
+            <span className="loader"></span>
+          ) : (
+            <>
+              {result && (
+                <div>
+                  <h1 className="text-capitalize mb-3">{title}</h1>
+                  <div
+                    className="container"
+                    ref={contentRef}
+                    onClick={() => handleCopy(contentRef)}
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {parsedResult.content}
+                  </div>
+                  <div
+                    ref={metaDescriptionRef}
+                    onClick={() => handleCopy(metaDescriptionRef)}
+                    className="mt-3"
+                  >
+                    <b></b> {parsedResult.metaDescription}
+                  </div>
+                  <div
+                    ref={slugRef}
+                    onClick={() => handleCopy(slugRef)}
+                    className="mt-3"
+                  >
+                    <b></b> {parsedResult.slug}
+                  </div>
+                  <button
+                    onClick={downloadPDF}
+                    className="btn btn-primary mr-2"
+                  >
+                    Download PDF
+                  </button>
+                  <button
+                    onClick={handleGenerateAgain}
+                    className="btn btn-secondary"
+                  >
+                    Generate Again
+                  </button>
                 </div>
-                <div
-                  ref={metaDescriptionRef}
-                  onClick={() => handleCopy(metaDescriptionRef)}
-                  className="mt-3"
-                >
-                  <b></b> {parsedResult.metaDescription}
-                </div>
-                <div
-                  ref={slugRef}
-                  onClick={() => handleCopy(slugRef)}
-                  className="mt-3"
-                >
-                  <b></b> {parsedResult.slug}
-                </div>
-                <button onClick={downloadPDF} className="btn btn-primary mr-2">
-                  Download PDF
-                </button>
-                <button onClick={handleGenerateAgain} className="btn btn-secondary">
-                  Generate Again
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
       <Footer />
-    </div>);
+    </div>
+  );
 }
