@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
-import OnelinerForm from "../components/onelinerForm";
+import OnelinerForm from "../components/OnelinerForm";
 import Footer from "../components/Footer";
 import Herosection from "../components/Herosection";
 import Navigation from "../components/Navigation";
@@ -12,7 +12,7 @@ export default function Oneliner() {
   async function onSubmit(formData) {
     setLoading(true);
     try {
-      const response = await fetch("/api/apiCall", {
+      const response = await fetch("/api/apiCallForOneliner", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

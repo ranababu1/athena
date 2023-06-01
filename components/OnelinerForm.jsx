@@ -1,4 +1,3 @@
-// File: components/OnelinerForm.jsx
 import { useState } from "react";
 
 const OnelinerForm = ({ onSubmit }) => {

@@ -18,7 +18,7 @@ const Herosection = () => {
               </p>
             </div>
           </div>
-          <div class=" col-xl-7 col-lg-6 col-md-12 text-lg-right text-center">
+          <div className=" col-xl-7 col-lg-6 col-md-12 text-lg-right text-center">
             <Image
               src="/hero-img.png"
               alt="hero image"

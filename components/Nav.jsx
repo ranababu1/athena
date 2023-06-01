@@ -9,11 +9,6 @@ const Navigation = () => {
         </Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" href="/writer">
-          Writer
-        </Link>
-      </li>
-      <li className="nav-item">
         <Link className="nav-link" href="/oneliner">
           Oneliner
         </Link>
