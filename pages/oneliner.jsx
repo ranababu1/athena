@@ -50,7 +50,18 @@ export default function Oneliner() {
   return (
     <>
       <Navigation />
-      <Hero2 />
+      <Hero2
+        heading="Posting to Social?"
+        subheading="need a one liner ready?"
+        listItems={[
+          "Get Oneliner for your content",
+          "AI-Powered Creativity",
+          "Unlimited possibilities",
+          "Personalized Narratives",
+          "Master the Social Media game",
+        ]}
+      />
+
       <div className="z-container">
         {showForm ? <OnelinerForm onSubmit={onSubmit} /> : null}
 
@@ -61,7 +72,10 @@ export default function Oneliner() {
             {result && (
               <div className="z-container">
                 <p>{result}</p>
-                <button onClick={handleGenerateAgain} className="btn btn-secondary">
+                <button
+                  onClick={handleGenerateAgain}
+                  className="btn btn-secondary"
+                >
                   Generate Again
                 </button>
               </div>

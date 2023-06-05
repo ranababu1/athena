@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const Hero2 = () => {
+const Hero2 = ({heading, subheading, listItems}) => {
   return (
     <section>
       <div className="banner-secbanner__section">
@@ -9,22 +9,19 @@ const Hero2 = () => {
           <div className="home-banner__flexcnt" id="hpScheduleMeeting">
             <div className="home-banner__flexitemleft">
               <h1 className="banner-main__heading">
-                <span>Save time</span> with intelligent content creation
+                <span>{heading}</span> {subheading}
               </h1>
               <div className="wordCarousel">
                 <div>
                   <ul className="flip5">
-                    <li>SEO Optimized Copy Ready</li>
-                    <li>Tailored Content Generation</li>
-                    <li>Transform thoughts to content</li>
-                    <li>AI-Powered Creativity</li>
-                    <li>Personalized Narratives</li>
+                    {listItems.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
             </div>
             <div className="home-banner__flexitemright img-maxwidth--540">
-          
               <Image
                 src="/hero-img.png"
                 className="banner__image"

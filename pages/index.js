@@ -123,7 +123,18 @@ export default function Home() {
         <title>Athena</title>
       </Head>
       <Navigation />
-      <Hero2 />
+      <Hero2
+        heading="Save time"
+        subheading="with intelligent content creation"
+        listItems={[
+          "SEO Optimized Copy Ready",
+          "Tailored Content Generation",
+          "Transform thoughts to content",
+          "AI-Powered Creativity",
+          "Personalized Narratives",
+        ]}
+      />
+
       <div className="card-block">
         <div className="z-container pt-4 card mnh500">
           {showForm ? <ContentForm onSubmit={onSubmit} /> : null}

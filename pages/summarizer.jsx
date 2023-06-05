@@ -41,10 +41,19 @@ const Summarizer = () => {
   return (
     <>
       <Navigation />
-      <Hero2 />
+      <Hero2
+        heading="Large Sets of Content"
+        subheading="no time to read details?"
+        listItems={[
+          "Instant Summaries for You",
+          "AI for Enhanced Creativity",
+          "Maximize Time Efficiency",
+          "Bullet Points or Paragraphs",
+          "Excel Your Content Strategy",
+        ]}
+      />
       <div className="z-container minh500">
         <h3 className="mb-4">WIP...</h3>
-       
       </div>
       <Footer />
     </>
