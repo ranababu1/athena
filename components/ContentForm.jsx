@@ -21,7 +21,7 @@ const ContentForm = ({ onSubmit }) => {
   return (
     <div className="form-content">
       <div className="form-wrapper">
-        <h3 className="head3">Generate a Blog Post</h3>
+        <h3 className="head3">Generate an article</h3>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input

@@ -455,6 +455,9 @@ button {
 
 }
 
+.minh500{
+  min-height: 500px;
+}
 
 .loader {
   font-size: 120px;

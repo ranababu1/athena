@@ -15,6 +15,7 @@ const OnelinerForm = ({ onSubmit }) => {
   return (
     <div className="form-content">
     <div className="form-wrapper">
+    <h1>Generate a One-liner</h1>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <input

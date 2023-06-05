@@ -42,20 +42,9 @@ const Summarizer = () => {
     <>
       <Navigation />
       <Hero2 />
-      <div className="container">
-        <h3 className="mb-4">Summarize your text</h3>
-        <SummarizerForm onSubmit={onSubmit} />
-
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          result && (
-            <div>
-              <h1>Summarized Text</h1>
-              <p>{result}</p>
-            </div>
-          )
-        )}
+      <div className="z-container minh500">
+        <h3 className="mb-4">WIP...</h3>
+       
       </div>
       <Footer />
     </>

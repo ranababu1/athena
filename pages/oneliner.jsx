@@ -8,8 +8,10 @@ import Navigation from "../components/Nav";
 export default function Oneliner() {
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
+  const [showForm, setShowForm] = useState(true);
 
   async function onSubmit(formData) {
+    setShowForm(false);
     setLoading(true);
     try {
       const response = await fetch("/api/apiCallForOneliner", {
@@ -40,24 +42,31 @@ export default function Oneliner() {
     }
   }
 
+  function handleGenerateAgain() {
+    setShowForm(true);
+    setResult(null);
+  }
+
   return (
     <>
       <Navigation />
       <Hero2 />
       <div className="z-container">
-        <h3 className="mb-4">Generate a One-liner</h3>
-        <OnelinerForm onSubmit={onSubmit} />
+        {showForm ? <OnelinerForm onSubmit={onSubmit} /> : null}
 
         {loading ? (
-                      <span className="loader"></span>
-
+          <span className="loader"></span>
         ) : (
-          result && (
-            <div>
-              <h1>Generated One-liner</h1>
-              <p>{result}</p>
-            </div>
-          )
+          <>
+            {result && (
+              <div className="z-container">
+                <p>{result}</p>
+                <button onClick={handleGenerateAgain} className="btn btn-secondary">
+                  Generate Again
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
       <Footer />

@@ -7,7 +7,7 @@ const Oneliner = () => {
     <>
       <Navigation />
       <Hero2 />
-      <h1>Oneliner</h1>
+      <h1 className="z-container minh500">This page in being built...</h1>
       <Footer />
     </>
   );
