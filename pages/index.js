@@ -1,11 +1,10 @@
 import Head from "next/head";
 import { useState, useRef } from "react";
 import jsPDF from "jspdf";
-import "bootstrap/dist/css/bootstrap.min.css";
 import ContentForm from "../components/ContentForm";
-import Herosection from "../components/Herosection";
+import Hero2 from "../components/Hero2";
 import Footer from "../components/Footer";
-import Navigation from "../components/Navigation";
+import Navigation from "../components/Nav";
 
 export default function Home() {
   const [result, setResult] = useState();
@@ -124,9 +123,9 @@ export default function Home() {
         <title>Athena</title>
       </Head>
       <Navigation />
-      <Herosection />
-      <div>
-        <div className="container pt-4 mnh500">
+      <Hero2 />
+      <div className="card-block">
+        <div className="z-container pt-4 card mnh500">
           {showForm ? <ContentForm onSubmit={onSubmit} /> : null}
           {loading ? (
             <span className="loader"></span>
@@ -136,10 +135,9 @@ export default function Home() {
                 <div>
                   <h1 className="text-capitalize mb-3">{title}</h1>
                   <div
-                    className="container"
+                    className="response-content"
                     ref={contentRef}
                     onClick={() => handleCopy(contentRef)}
-                    style={{ whiteSpace: "pre-line" }}
                   >
                     {parsedResult.content}
                   </div>

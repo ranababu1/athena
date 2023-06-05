@@ -13,6 +13,8 @@ const OnelinerForm = ({ onSubmit }) => {
   }
 
   return (
+    <div className="form-content">
+    <div className="form-wrapper">
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <input
@@ -42,6 +44,8 @@ const OnelinerForm = ({ onSubmit }) => {
         />
       </div>
     </form>
+    </div>
+    </div>
   );
 };
 

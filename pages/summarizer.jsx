@@ -3,8 +3,8 @@
 import { useState } from "react";
 import SummarizerForm from "../components/SummarizerForm";
 import Footer from "../components/Footer";
-import Herosection from "../components/Herosection";
-import Navigation from "../components/Navigation";
+import Hero2 from "../components/Hero2";
+import Navigation from "../components/Nav";
 
 const Summarizer = () => {
   const [result, setResult] = useState("");
@@ -41,7 +41,7 @@ const Summarizer = () => {
   return (
     <>
       <Navigation />
-      <Herosection />
+      <Hero2 />
       <div className="container">
         <h3 className="mb-4">Summarize your text</h3>
         <SummarizerForm onSubmit={onSubmit} />

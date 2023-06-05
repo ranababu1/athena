@@ -29,9 +29,9 @@ export default async function (req, res) {
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Write a oneliner about ${topic} within ${maxWordLimit} words.`,
+      prompt: `Consider yourself as a Social media expert. Write a oneliner about ${topic} within ${maxWordLimit} words.`,
       temperature: 0.6,
-      max_tokens: maxWordLimit * 5, // Assuming an average of 5 tokens per word
+      max_tokens: maxWordLimit * 10, // Assuming an average of 5 tokens per word
     });
 
     res.status(200).json({ result: completion.data.choices[0].text });

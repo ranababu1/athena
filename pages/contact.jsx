@@ -1,12 +1,12 @@
-import Navigation from "../components/Navigation";
-import Herosection from "../components/Herosection";
+import Navigation from "../components/Nav";
+import Hero2 from "../components/Hero2";
 import Footer from "../components/Footer";
 
 const Oneliner = () => {
   return (
     <>
       <Navigation />
-      <Herosection />
+      <Hero2 />
       <h1>Oneliner</h1>
       <Footer />
     </>

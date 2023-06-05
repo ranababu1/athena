@@ -2,8 +2,8 @@ import Head from "next/head";
 import { useState } from "react";
 import OnelinerForm from "../components/OnelinerForm";
 import Footer from "../components/Footer";
-import Herosection from "../components/Herosection";
-import Navigation from "../components/Navigation";
+import Hero2 from "../components/Hero2";
+import Navigation from "../components/Nav";
 
 export default function Oneliner() {
   const [result, setResult] = useState();
@@ -43,13 +43,14 @@ export default function Oneliner() {
   return (
     <>
       <Navigation />
-      <Herosection />
-      <div className="container">
+      <Hero2 />
+      <div className="z-container">
         <h3 className="mb-4">Generate a One-liner</h3>
         <OnelinerForm onSubmit={onSubmit} />
 
         {loading ? (
-          <div>Loading...</div>
+                      <span className="loader"></span>
+
         ) : (
           result && (
             <div>
