@@ -6,8 +6,17 @@ const Oneliner = () => {
   return (
     <>
       <Navigation />
-      <Hero2 />
-      <h1 className="z-container minh500">This page in being built...</h1>
+      <Hero2
+        heading="Like the Tool?"
+        subheading="contact to get a copy"
+        listItems={[
+          "Unleash Your Content Potential",
+          "Transform Your Content Strategy",
+          "Start Crafting Superior Content",
+          "We're Here to Help!",
+          "Got Questions? ",
+        ]}
+      />      <h1 className="z-container minh500">This page in being built...</h1>
       <Footer />
     </>
   );
