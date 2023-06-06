@@ -61,8 +61,8 @@ export default function Oneliner() {
           "Master the Social Media game",
         ]}
       />
-
-      <div className="z-container">
+  <div className="card-block">
+        <div className="z-container p-50 card">
         {showForm ? <OnelinerForm onSubmit={onSubmit} /> : null}
 
         {loading ? (
@@ -82,6 +82,7 @@ export default function Oneliner() {
             )}
           </>
         )}
+      </div>
       </div>
       <Footer />
     </>
