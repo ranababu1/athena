@@ -1,6 +1,6 @@
 {
-    "name": "athena",
-    "description": "Athena is a web app that uses OpenAI's API to build blogs based on human inputs.",
+    "name": "copycrafter",
+    "description": "Copycrafter is a web app that uses OpenAI's API to generate different content pieces based on human inputs.",
     "version": "1.8.5",
     "scripts": {
         "dev": "next dev",

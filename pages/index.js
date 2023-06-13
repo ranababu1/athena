@@ -20,7 +20,7 @@ export default function Home() {
     setShowForm(false);
     setLoading(true);
     try {
-      const response = await fetch("/api/apiCall", {
+      const response = await fetch("/api/forBlog", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -120,12 +120,11 @@ export default function Home() {
   return (
     <div className="container-fluid p-0">
       <Head>
-        <title>Athena</title>
+        <title>Copycrafter</title>
       </Head>
       <Navigation />
       <Hero2
-        heading="Save time"
-        subheading="with intelligent content creation"
+        heading="Easy content creation"
         listItems={[
           "SEO Optimized Copy Ready",
           "Tailored Content Generation",

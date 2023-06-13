@@ -7,19 +7,17 @@ const Privacy = () => {
     <>
       <Navigation />
       <Hero2
-        heading="Privacy is Important"
-        subheading="Discover Our Policies"
+        heading="Privacy Policy"
         listItems={[
-          "We Respect Your Privacy",
-          "Transparency in Data Handling",
-          "Your Control, Your Data",
-          "Secure Information Practices",
-          "Understanding Your Rights",
+          "Information We Collect",
+          "Use of Your Information",
+          "Sharing of Information",
+          "Security of Information",
+          "Information We Collect",
         ]}
       />
       <div className="card-block">
         <div className="z-container p-50 card">
-          <h1>Privacy Policy</h1>
           <p>
             This privacy policy explains how we collect, use, disclose and
             protect your information when you visit our app. Please read this

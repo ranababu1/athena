@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const Hero2 = ({heading, subheading, listItems}) => {
+const Hero2 = ({heading, listItems}) => {
   return (
     <section>
       <div className="banner-secbanner__section">
@@ -9,7 +9,7 @@ const Hero2 = ({heading, subheading, listItems}) => {
           <div className="home-banner__flexcnt" id="hpScheduleMeeting">
             <div className="home-banner__flexitemleft">
               <h1 className="banner-main__heading">
-                <span>{heading}</span> {subheading}
+                {heading}
               </h1>
               <div className="wordCarousel">
                 <div>

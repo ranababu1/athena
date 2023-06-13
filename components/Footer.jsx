@@ -1,24 +1,25 @@
+import Link from "next/link";
 const Footer = () => {
-    return (
-      <footer className="footer">
-        <div className="container">
-          <div className="row align-items-center g-0 border-top py-2">
-            <div className="col-md-6 col-12 text-center text-md-start">
-              <span>© 2023 Athena. All Rights Reserved.</span>
-            </div>
-            <div className="col-12 col-md-6">
-              <nav className="nav nav-footer justify-content-center justify-content-md-end">
-                <a className="nav-link active ps-0" href="#">Privacy</a>
-                <a className="nav-link" href="#">Terms</a>
-                <a className="nav-link" href="#">Feedback</a>
-                <a className="nav-link" href="#">Support</a>
-              </nav>
-            </div>
-          </div>
+  return (
+    <footer>
+      <div className="footer-flexbox">
+        <div className="footer-flexleft footer-alink">
+          <p>© 2023 Copycrafter. All Rights Reserved.</p>
         </div>
-      </footer>
-    );
-  };
-  
-  export default Footer;
-  
+        <div className="footer-flexright footer-alink">
+          <Link className="" href="/privacy-policy">
+            Privacy Policy
+          </Link>
+          <Link className="" href="/tos">
+            ToS
+          </Link>
+          <Link className="" href="/contact">
+            Contact
+          </Link>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

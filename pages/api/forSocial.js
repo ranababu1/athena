@@ -7,6 +7,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 export default async function (req, res) {
+  console.log(req.body);
   if (!configuration.apiKey) {
     res.status(500).json({
       error: {
@@ -16,8 +17,26 @@ export default async function (req, res) {
     return;
   }
 
-  const { topic, maxWordLimit } = req.body;
-  if (!topic || !maxWordLimit) {
+  const {
+    noOfWords,
+    urlOfPage,
+    whichSocial,
+    geo,
+    tonality,
+    keywords,
+    targetAudience,
+    addGoalHere,
+  } = req.body;
+  if (
+    !noOfWords ||
+    !urlOfPage ||
+    !whichSocial ||
+    !geo ||
+    !tonality ||
+    !keywords ||
+    !targetAudience ||
+    !addGoalHere
+  ) {
     res.status(400).json({
       error: {
         message: "Please provide all required fields",
@@ -27,11 +46,12 @@ export default async function (req, res) {
   }
 
   try {
+    const prompt = `Create ${noOfWords} words social media post content for the link "${urlOfPage}" to publish it in ${whichSocial} page. The characteristics to take into account are the following: descriptive, in ${geo}-english. The tone of the post content should be ${tonality}. Use emphasis style to highlight keywords "${keywords}" . The target audience are ${targetAudience}. To be used at an ongoing basis with the goal to ${addGoalHere}.`;
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Consider yourself as a Social media expert. Write a oneliner about ${topic} within ${maxWordLimit} words.`,
+      prompt,
       temperature: 0.6,
-      max_tokens: maxWordLimit * 10, // Assuming an average of 5 tokens per word
+      max_tokens: noOfWords * 10,
     });
 
     res.status(200).json({ result: completion.data.choices[0].text });
@@ -42,4 +62,4 @@ export default async function (req, res) {
       },
     });
   }
-};
+}

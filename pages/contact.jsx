@@ -8,7 +8,6 @@ const Oneliner = () => {
       <Navigation />
       <Hero2
         heading="Like the Tool?"
-        subheading="contact to get a copy"
         listItems={[
           "Unleash Your Content Potential",
           "Transform Your Content Strategy",

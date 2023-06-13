@@ -1,11 +1,11 @@
 import Head from "next/head";
 import { useState } from "react";
-import OnelinerForm from "../components/OnelinerForm";
+import SocialForm from "../components/SocialForm";
 import Footer from "../components/Footer";
 import Hero2 from "../components/Hero2";
 import Navigation from "../components/Nav";
 
-export default function Oneliner() {
+export default function Social() {
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(true);
@@ -13,15 +13,16 @@ export default function Oneliner() {
   async function onSubmit(formData) {
     setShowForm(false);
     setLoading(true);
+    console.log(formData); 
     try {
-      const response = await fetch("/api/apiCallForOneliner", {
+      const response = await fetch("/api/forSocial", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
-          action: "generateOneliner",
+          action: "generateSocialPost",
         }),
       });
 
@@ -52,7 +53,6 @@ export default function Oneliner() {
       <Navigation />
       <Hero2
         heading="Posting to Social?"
-        subheading="need a one liner ready?"
         listItems={[
           "Get Oneliner for your content",
           "AI-Powered Creativity",
@@ -61,28 +61,28 @@ export default function Oneliner() {
           "Master the Social Media game",
         ]}
       />
-  <div className="card-block">
+      <div className="card-block minh500">
         <div className="z-container p-50 card">
-        {showForm ? <OnelinerForm onSubmit={onSubmit} /> : null}
+          {showForm ? <SocialForm onSubmit={onSubmit} /> : null}
 
-        {loading ? (
-          <span className="loader"></span>
-        ) : (
-          <>
-            {result && (
-              <div className="z-container">
-                <p>{result}</p>
-                <button
-                  onClick={handleGenerateAgain}
-                  className="btn btn-secondary"
-                >
-                  Generate Again
-                </button>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+          {loading ? (
+            <span className="loader"></span>
+          ) : (
+            <>
+              {result && (
+                <div className="z-container">
+                  <p>{result}</p>
+                  <button
+                    onClick={handleGenerateAgain}
+                    className="btn btn-secondary"
+                  >
+                    Generate Again
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
       <Footer />
     </>

@@ -5,29 +5,34 @@ const Navigation = () => {
     <header className="header">
       <div className="z-container">
         <nav className="navbar">
-        <Link className="nav-logo" href="/">
-        Copy Crafter
-              </Link>
-      
+          <Link className="nav-logo" href="/">
+            Copy Crafter
+          </Link>
+
           <ul className="nav-menu">
-          <li className="nav-item">
+            <li className="nav-item">
               <Link className="nav-link" href="/">
-                Home
+                Blog
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/oneliner">
-                One liner
+              <Link className="nav-link" href="/social">
+                Social
+              </Link>
+            </li>{" "}
+            <li className="nav-item">
+              <Link className="nav-link" href="/ppcadcopy">
+                Ad Copy
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/summarizer">
-                Summarizer
+              <Link className="nav-link" href="/metadata">
+                Meta data
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/contact">
-                Contact
+              <Link className="nav-link" href="/structureddata">
+                Structured data
               </Link>
             </li>
           </ul>
